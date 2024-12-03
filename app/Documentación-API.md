@@ -18,7 +18,9 @@
 ---
 
 ## Introducción
-Esta API permite analizar imágenes de radiografías de tórax para detectar neumonía utilizando un modelo de aprendizaje profundo.
+Esta API permite analizar radiografías de tórax para detectar neumonía utilizando un modelo de redes neuronales convolucionales. Genera un Grad-CAM para visualizar las áreas más relevantes en las imágenes analizadas.
+
+Es ideal para integrarse en sistemas médicos que requieran un diagnóstico automatizado complementario.
 
 ### Fecha de Actualización
 Última actualización: 02-12-2024
@@ -36,16 +38,16 @@ Esta API permite analizar imágenes de radiografías de tórax para detectar neu
 ### Clonación del Repositorio
 Clona el repositorio del proyecto:
 ```bash
-git clone https://github.com/jrbeduardo/proyecto-malaria.git
-cd proyecto-malaria
+git clone https://github.com/tu-usuario/proyecto-neumonia.git
+cd proyecto-neumonia
 ```
 ## Carga del modelo
 
-El modelo necesario para ejecutar la API es bastante pesado y no está incluido directamente en el repositorio pero se puede descargar en el siguiente enlace:
+El modelo necesario para ejecutar la API no está incluido directamente en el repositorio debido a su tamaño. Descárgalo desde el siguiente enlace:
  
 [Descargar modelo cnn_neumonía.keras](https://drive.google.com/file/d/1lIucaM2YqiQma1Z3UGR28jJuoSuR9XmT/view?usp=drive_link)
 
-Por favor, guarda el archivo en la ubicación indicada en la configuración del modelo (/app/malaria_detection_model.h5 si usas Docker).
+Guarda el archivo en la ubicación (/app/cnn_neumonía.keras si usas Docker).
  
 ## Uso de Docker
 
@@ -77,14 +79,14 @@ docker rm id_contenedor
 ## Endpoints de la API
 
 ### POST /clasification_image
-**Descripción:** Clasifica una imagen para la detección de neumonía a partir de radiografías de tórax.
+**Descripción:** Analiza una radiografía de tórax para detectar neumonía y generar un Grad-CAM.
 
 **Request Body:**
-- `img_base64` (string): Imagen codificada en Base64.
+- `file` (archivo): Archivo de imagen de la radiografía (formato JPEG o JPG).
 
 **Ejemplo:**
 ```bash
-curl -X POST -H "Content-Type: application/json" -d '{"img_base64": "base64_string"}' http://localhost:80/clasification_image
+curl -X POST -F "file=@radiografia.jpg" http://localhost:80/predict
 ```
 
 **Response:**
